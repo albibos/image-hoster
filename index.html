@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>image host attempt #2</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <style>
+      body {
+        background-color: #333;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+      }
+      #imagePreview {
+        width: 300px;
+        height: 300px;
+        border: 1px solid white;
+        margin: 10px auto;
+      }
+      #uploadButton {
+        background-color: #ff6666;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+      }
+      #uploadButton:hover {
+        background-color: #ff8080;
+      }
+      #imageLink {
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>image hosting but trash</h1>
+    <input type="file" id="imageInput" />
+    <br />
+    <img id="imagePreview" src="" />
+    <br />
+    <button id="uploadButton">Upload</button>
+    <p id="imageLink"></p>
+    <script>
+      const imageInput = document.querySelector("#imageInput");
+      const imagePreview = document.querySelector("#imagePreview");
+      const uploadButton = document.querySelector("#uploadButton");
+      const imageLink = document.querySelector("#imageLink");
+
+      imageInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      uploadButton.addEventListener("click", async () => {
+        const file = imageInput.files[0];
+        if (file) {
+          const formData = new FormData();
+          formData.append("image", file);
+
+          const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          imageLink.textContent = data.url;
+          
+        imageLink.addEventListener("click", () => {
+            navigator.clipboard.writeText(data.url);
+            alert("Link copied to clipboard!");
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
