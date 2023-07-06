@@ -5,7 +5,21 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 const app = express();
-const upload = multer({ dest: "uploads/" });
+
+const imageFilter = (req, file, cb) => {
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".pdf", ".webp", ".svg"];
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (allowedExtensions.includes(ext)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed"));
+  }
+};
+
+const upload = multer({ 
+  dest: "uploads/",
+  fileFilter: imageFilter,
+});
 
 app.use(express.static("public"));
 
@@ -20,6 +34,11 @@ app.get("/upload", (req, res) => {
 app.get("/info", (req, res) => {
   res.sendFile(path.join(__dirname, "public/info.html"));
 });
+
+app.get("/images", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/images.html"));
+});
+
 
 const lastUploads = {};
 let imageCount = 0;
@@ -60,9 +79,9 @@ app.post("/uploadimg", upload.single("image"), (req, res) => {
   lastUploads[ip] = now;
 
   const ext = path.extname(file.originalname);
-  const hash = crypto.randomBytes(8).toString("hex");
+  const hash = crypto.randomBytes(8).toString("hex").substring(0, 7);
   const filename = `${hash}${ext}`;
-  const url = `${req.protocol}://${req.get("host")}/${filename}`;
+  const url = `https://${req.get("host")}/${filename}`;
 
   fs.rename(file.path, path.join("uploads", filename), (err) => {
     if (err) {

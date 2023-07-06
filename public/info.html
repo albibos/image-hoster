@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
       <meta name="description" content="free & easy image hosting">
+    <script src="ls.js"></script>
     <style>
       body {
         color: #fff;
@@ -27,7 +28,8 @@
       }
 
       p {
-        line-break: normal;
+        line-break: strict;
+        width: 700px;
       }
 
       .topbar {
@@ -129,16 +131,18 @@
       <div onclick="location.href='/'" class="logo">why.is.albinus.gay</div>
       <div class="links">
         <a href="/upload">Upload</a>
-        <a href="#">Images</a>
+        <a href="/images">Images</a>
         <a href="/info">Learn More</a>
       </div>
     </div>
 
     <div class="main-content">
       <h1 class="title">about albinus.gay</h1>
+      <center>
       <p>
         why.is.albinus.gay is a dandy little side project I devoted myself to. Originally a very old and beginner project I made as nodejs practice, now a little project you can use! I will add saving, so you'll be able to see all of your images you have uploaded (purged by us or not). If the image you see has been deleted by our system (deletes all imgs every week), you will have the option to reupload those images! Please, have fun and I hope you can come to enjoy this little project on the world wide web!
       </p>
+      </center>
     </div>
   </body>
 </html>

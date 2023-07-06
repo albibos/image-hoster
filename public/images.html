@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>why.is.albinus.gay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@800&family=Cabin:wght@500&family=Montserrat:wght@600&family=Noto+Sans&family=Poppins&family=Roboto:wght@500&display=swap"
+    rel="stylesheet"
+  />
+  <meta name="description" content="free & easy image hosting">
+  <script src="ls.js"></script>
+  <style>
+    body {
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 9%, transparent 9%);
+      background-position: 0% 0%;
+      background-size: 50px 50px;
+      background-attachment: fixed;
+    }
+
+    .topbar {
+      margin-top: 10px;
+      background-color: transparent;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: "Montserrat", sans-serif;
+      font-size: 24px;
+      margin-left: 50px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      cursor: pointer;
+      color: #666;
+    }
+
+    .links {
+      margin-right: 15px;
+    }
+
+    .links a {
+      color: #fff;
+      text-decoration: none;
+      margin-right: 50px;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #666;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 20px;
+      justify-items: center;
+      margin-top: 50px;
+      margin-right: 50px;
+      margin-left: 50px;
+    }
+
+    .image-container {
+      background-color: #111;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .image-url {
+      color: #fff;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .timestamp {
+      color: #888;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div onclick="location.href='/'" class="logo">why.is.albinus.gay</div>
+    <div class="links">
+      <a href="/upload">Upload</a>
+      <a href="/images">Images</a>
+      <a href="/info">Learn More</a>
+    </div>
+  </div>
+
+  <div class="image-grid" id="imageGrid"></div>
+
+  <script>
+    const images = JSON.parse(localStorage.getItem("uploadedImages")) || [];
+
+    const imageGrid = document.getElementById("imageGrid");
+
+    images.forEach((image) => {
+      const imageContainer = document.createElement("div");
+      imageContainer.classList.add("image-container");
+
+      const img = document.createElement("img");
+      img.src = image.url;
+      img.alt = "Image";
+      img.classList.add("image");
+      imageContainer.appendChild(img);
+
+      const urlElement = document.createElement("p");
+      urlElement.textContent = image.url;
+      urlElement.classList.add("image-url");
+      imageContainer.appendChild(urlElement);
+
+      const timestampElement = document.createElement("p");
+      const timestamp = new Date(image.timestamp);
+      timestampElement.textContent = timestamp.toLocaleString();
+      timestampElement.classList.add("timestamp");
+      imageContainer.appendChild(timestampElement);
+
+      imageGrid.appendChild(imageContainer);
+
+      urlElement.addEventListener("click", () => {
+        navigator.clipboard.writeText(urlElement.textContent);
+        alert("Link copied to clipboard!");
+      });
+    });
+  </script>
+</body>
+</html>

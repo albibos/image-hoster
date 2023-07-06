@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Barlow:wght@800&family=Cabin:wght@500&family=Montserrat:wght@600&family=Noto+Sans&family=Poppins&family=Roboto:wght@500&display=swap"
       rel="stylesheet"
     />
+    <script src="ls.js"></script>
     <style>
       body {
         background-color: #000;
@@ -106,7 +107,7 @@
 
       .upload-form {
         display: flex;
-        margin-top: -75px;
+        margin-top: -165px;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -190,7 +191,7 @@
       <div onclick="location.href='/'" class="logo">why.is.albinus.gay</div>
       <div class="links">
         <a href="/upload">Upload</a>
-        <a href="#">Images</a>
+        <a href="/images">Images</a>
         <a href="/info">Learn More</a>
       </div>
     </div>
@@ -231,6 +232,14 @@
           popupImage.src = data.url;
           popupLink.textContent = data.url;
           popup.classList.add("active");
+
+          const images =
+            JSON.parse(localStorage.getItem("uploadedImages")) || [];
+          images.push({
+            url: data.url,
+            timestamp: new Date().toLocaleString(),
+          });
+          localStorage.setItem("uploadedImages", JSON.stringify(images));
         }
       });
 
